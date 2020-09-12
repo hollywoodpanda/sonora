@@ -1,25 +1,58 @@
 use rodio::Sink;
 
 mod note;
-use note::model::Note;
-use note::model::Playable;
-use std::{thread,time};
+use note::model::{Note, Playable};
+use std::{thread, time, fs};
+
 
 fn main() {
     
     note::say_hi();
 
-    let device = rodio::default_output_device().unwrap();
-    
-    let mut sound = Note { 
-        sound: 300, 
-        sink: Sink::new(&device)
-    };
+    let filename = "song.txt";
 
-    sound.play();
+    play_file(filename);
+
+    sleep_a_lot();
+
+    println!("fin");
+
+}
+
+fn sleep_a_lot() {
+
     let period = time::Duration::from_millis(2000);
     thread::sleep(period);
-    sound.stop();
-    thread::sleep(period);
-    println!("fin");
+
 }
+
+fn play_file(filename : &str) {
+
+    let device = rodio::default_output_device().unwrap();
+
+    let content_string : String = fs::read_to_string(filename).unwrap();
+
+    for line in content_string.split("\n") {
+
+        let comma_index = line.find(',').unwrap();
+
+        let frequency = &line[0 .. comma_index];
+
+        let duration = &line[comma_index + 1 ..];
+
+        let note = &mut Note {
+
+            sink: Sink::new(&device),
+            sound: frequency.parse::<u32>().unwrap(),
+            duration: duration.parse::<u64>().unwrap()
+
+        };
+
+        note.play();
+
+    }
+
+}
+
+
+
