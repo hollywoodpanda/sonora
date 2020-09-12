@@ -1,8 +1,7 @@
 use rodio::Sink;
 
 mod note;
-use note::model::Note;
-use note::model::Playable;
+use note::model::{Note, Playable};
 use std::{thread,time};
 
 fn main() {
