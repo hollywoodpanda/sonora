@@ -30,11 +30,11 @@ fn play_file(filename : &str) {
 
     let device = rodio::default_output_device().unwrap();
 
-    let content_string : String = fs::read_to_string(filename).unwrap();
+    let content_string : String = fs::read_to_string(filename).expect("Hum... Couldn't read the song file :-(");
 
     for line in content_string.split("\n") {
 
-        let comma_index = line.find(',').unwrap();
+        let comma_index = line.find(',').expect("Every note in the song.txt file must be a line in the file: \"frequency,duration\"");
 
         let frequency = &line[0 .. comma_index];
 
