@@ -9,20 +9,11 @@ fn main() {
     
     note::say_hi();
 
-    let filename = "song.txt";
+    let filename = "mario.txt";
 
     play_file(filename);
 
-    sleep_a_lot();
-
     println!("fin");
-
-}
-
-fn sleep_a_lot() {
-
-    let period = time::Duration::from_millis(2000);
-    thread::sleep(period);
 
 }
 
@@ -33,6 +24,12 @@ fn play_file(filename : &str) {
     let content_string : String = fs::read_to_string(filename).expect("Hum... Couldn't read the song file :-(");
 
     for line in content_string.split("\n") {
+
+        if line.starts_with('#') {
+
+            continue;
+
+        }
 
         let comma_index = line.find(',').expect("Every note in the song.txt file must be a line in the file: \"frequency,duration\"");
 
