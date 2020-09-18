@@ -152,7 +152,7 @@ fn play_file(filename : &str) {
 
             Err(_err) => {
 
-                println!("Opsy! The frequency must be an positive integer... What the hell was that?");
+                println!("Opsy! The frequency must be a positive integer... What the hell was that?");
 
                 continue;
 
