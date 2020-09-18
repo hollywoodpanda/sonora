@@ -2,18 +2,18 @@ use rodio::source::SineWave;
 use rodio::Sink;
 use std::{time::Duration, thread};
 
-/**
- * Can play and stop something
- */
+/// 
+/// Can play and stop something
+/// 
 pub trait Playable {
 
     fn play(&mut self);
     fn stop(&mut self);
 
 }
-/**
- * Can have a sound (SineWave)
- */
+/// 
+/// Can have a sound (SineWave)
+/// 
 pub trait Soundable {
 
     fn get_sound(&mut self) -> u32;
@@ -22,10 +22,13 @@ pub trait Soundable {
 
 }
 
-/**
- * A generic implementation of
- * playable sounds.
- */
+/// 
+/// A generic implementation of
+/// playable sounds.
+/// 
+/// It allows a `Soundable` to 
+/// be playable.
+/// 
 impl<T> Playable for T where T : Soundable {
 
     fn play(&mut self) {
@@ -53,6 +56,12 @@ impl<T> Playable for T where T : Soundable {
 
 }
 
+///
+/// A musical note representation
+/// that holds a sink (so it can access the underlying
+/// sound hardware), a frequency (the `sound` property)
+/// and a duration
+/// 
 pub struct Note {
     
     pub sink: Sink,
@@ -63,6 +72,9 @@ pub struct Note {
 
 }
 
+///
+/// A soundable musical note!
+/// 
 impl Soundable for Note {
 
     fn get_sink(&mut self) -> &Sink {
@@ -85,6 +97,18 @@ impl Soundable for Note {
 
 }
 
+///
+/// A function to sleep the running thread
+/// for a given period.
+/// 
+/// ### Arguments
+/// 
+/// * `time_in_millis : u64` - The amount of time, in milliseconds, that the thread should sleep.
+/// 
+/// ### Example
+/// 
+/// `block_for_sound(7000);`
+/// 
 fn block_for_sound(time_in_millis : u64) {
 
     let period = Duration::from_millis(time_in_millis);
